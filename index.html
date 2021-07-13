@@ -6,17 +6,19 @@
     <style>
         body {
             text-align: center;
-            font-family: verdana,serif;
+            font-family: verdana, serif;
             font-size: 20px;
-			background-color: black;
+            background-color: black;
             color: white;
         }
-        .main{
+
+        .main {
             width: 50%;
             margin-right: auto;
             margin-left: auto;
         }
-        .table{
+
+        .table {
             margin-right: auto;
             margin-left: auto;
         }
@@ -66,14 +68,14 @@
         })
     fetch("https://api.github.com/users/Abhishek-programs/repos")
         .then(response => response.json())
-        .then(function (data){
+        .then(function (data) {
             console.log(data)
             let repos = document.getElementById("repos")
 
-            for (var i = 0; i < data.length; i++){
+            for (var i = 0; i < data.length; i++) {
                 var row = `<tr>
                 <td>${data[i]['name']}</td>
-                <td>Go to <a href="${data[i]['html_url']}">Repo</a></td>
+                <td><button type="button" onclick="window.location.href='${data[i]['html_url']}'" style="background-color: darkslategrey">Go to repo</button></td>
                 </tr>`
                 repos.innerHTML += row
             }
