@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Portfolio</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: verdana,serif;
+            font-size: 20px;
+			background-color: black;
+            color: white;
+        }
+        .main{
+            width: 50%;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        .table{
+            margin-right: auto;
+            margin-left: auto;
+        }
+    </style>
+</head>
+<body>
+<div id="loading">
+    Loading Profile
+</div>
+
+<div class="main" id="mainC" hidden>
+    <img height="100" width="100" id="profileImage">
+    <h2 id="fullName"></h2>
+    <p id="bio"></p>
+    <h5 id="followers"></h5>
+
+    <p>Check my GitHub Profile on <a id="github">GitHub</a></p>
+    <hr>
+</div>
+
+<div class="repos" id="repoC" hidden>
+    <h2>My Projects</h2>
+    <table class="table">
+        <tr>
+            <th>Repo Name</th>
+            <th style="width: 50%">Link</th>
+        </tr>
+        <tbody id="repos">
+
+        </tbody>
+    </table>
+</div>
+
+<script>
+    fetch("https://api.github.com/users/abhishek-programs")
+        .then(response => response.json())
+        .then(function (data) {
+            let followersCount = data['followers']
+            document.getElementById('profileImage').src = data['avatar_url']
+            document.getElementById('fullName').textContent = data['name']
+            document.getElementById('bio').textContent = data['bio']
+            document.getElementById('bio').textContent = `I have been followed by ${followersCount} people`
+            document.getElementById('github').href = data['html_url']
+
+            document.getElementById('loading').hidden = true
+            document.getElementById('mainC').hidden = false
+        })
+    fetch("https://api.github.com/users/Abhishek-programs/repos")
+        .then(response => response.json())
+        .then(function (data){
+            console.log(data)
+            let repos = document.getElementById("repos")
+
+            for (var i = 0; i < data.length; i++){
+                var row = `<tr>
+                <td>${data[i]['name']}</td>
+                <td>Go to <a href="${data[i]['html_url']}">Repo</a></td>
+                </tr>`
+                repos.innerHTML += row
+            }
+            document.getElementById("repoC").hidden = false
+        })
+</script>
+
+</body>
+</html>
